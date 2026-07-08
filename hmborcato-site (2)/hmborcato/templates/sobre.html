@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Sobre a {{ empresa.nome_curto }} — {{ empresa.nome }}{% endblock %}
+{% block description %}Conheça a história da {{ empresa.nome }}, com mais de {{ empresa.anos_atuacao }} anos de representação comercial de autopeças em Minas Gerais.{% endblock %}
+
+{% block content %}
+
+<section class="hero-mesh grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="font-mono text-action-light text-xs tracking-widest uppercase mb-3 reveal">Sobre a empresa</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Duas décadas conectando indústria e ponto de venda em Minas Gerais.</h1>
+    <p class="text-white/70 mt-5 max-w-2xl leading-relaxed reveal">A {{ empresa.nome }} atua como elo comercial entre fabricantes e distribuidores de autopeças e a rede varejista mineira, com atendimento próximo e foco em resultado de longo prazo.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== MISSÃO / VISÃO / VALORES ===================== -->
+<section class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="reveal bg-mist rounded-2xl p-7">
+      <h2 class="font-display font-bold text-xl text-navy">Missão</h2>
+      <p class="text-steel text-sm mt-3 leading-relaxed">Representar marcas de autopeças com excelência comercial, gerando crescimento sustentável para fabricantes e parceiros de venda em Minas Gerais.</p>
+    </div>
+    <div class="reveal bg-mist rounded-2xl p-7" style="transition-delay:.08s">
+      <h2 class="font-display font-bold text-xl text-navy">Visão</h2>
+      <p class="text-steel text-sm mt-3 leading-relaxed">Ser referência em representação comercial de autopeças no estado, reconhecida pela proximidade com o cliente e pela consistência de resultados.</p>
+    </div>
+    <div class="reveal bg-mist rounded-2xl p-7" style="transition-delay:.16s">
+      <h2 class="font-display font-bold text-xl text-navy">Valores</h2>
+      <p class="text-steel text-sm mt-3 leading-relaxed">Relacionamento de longo prazo, integridade comercial, conhecimento técnico do setor e compromisso com o resultado do parceiro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LINHA DO TEMPO ===================== -->
+<section class="bg-mist">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 py-20">
+    <p class="font-mono text-action text-xs tracking-widest uppercase mb-3 reveal">Nossa trajetória</p>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight reveal">A rota até aqui.</h2>
+
+    <ol class="mt-14 relative">
+      <div class="route-divider-v absolute left-[27px] top-2 bottom-2" aria-hidden="true"></div>
+      {% for h in historico %}
+      <li class="reveal relative pl-16 pb-12 last:pb-0" style="transition-delay:{{ loop.index0 * 0.08 }}s">
+        <span class="timeline-dot absolute left-0 top-0 w-14 h-14 rounded-full text-white font-mono font-semibold text-xs flex items-center justify-center border-4 border-mist">{{ h.ano }}</span>
+        <h3 class="font-display font-bold text-lg text-navy">{{ h.titulo }}</h3>
+        <p class="text-steel text-sm mt-1.5 leading-relaxed max-w-xl">{{ h.desc }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+
+<!-- ===================== DIFERENCIAIS ===================== -->
+<section class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+  <h2 class="font-display font-bold text-3xl text-navy tracking-tight reveal">O que sustenta nossa operação</h2>
+  <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for d in diferenciais %}
+    <div class="reveal lift bg-white border border-linha rounded-2xl p-6" style="transition-delay:{{ loop.index0 * 0.08 }}s">
+      <div class="icon-badge w-12 h-12 rounded-xl text-action flex items-center justify-center">{{ icon(d.icone, 'w-6 h-6') }}</div>
+      <h3 class="font-display font-bold text-lg text-navy mt-4">{{ d.titulo }}</h3>
+      <p class="text-steel text-sm mt-2 leading-relaxed">{{ d.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <h2 class="font-display font-bold text-2xl sm:text-3xl tracking-tight text-center sm:text-left">Quer conhecer nosso portfólio de linhas representadas?</h2>
+    <a href="{{ url_for('marcas') }}" class="btn-primary text-base px-6 py-3.5 shrink-0">Ver linhas representadas</a>
+  </div>
+</section>
+
+{% endblock %}

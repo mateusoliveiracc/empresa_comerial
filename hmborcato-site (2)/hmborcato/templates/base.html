@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ empresa.nome }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ empresa.nome }} — {{ empresa.slogan }}, com mais de {{ empresa.anos_atuacao }} anos de know-how no segmento B2B de autopeças.{% endblock %}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="{{ request.url }}">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ empresa.nome }}">
+<meta property="og:description" content="{{ empresa.slogan }} — mais de {{ empresa.anos_atuacao }} anos de know-how no segmento B2B.">
+<meta property="og:locale" content="pt_BR">
+
+<!-- Favicon -->
+<link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" sizes="any">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icon-192.png') }}">
+
+<!-- Performance: preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy:  { DEFAULT: '#0A1B33', dark: '#050810', light: '#153A68' },
+          action:{ DEFAULT: '#1D5FE0', dark: '#0D3E9E', light: '#5B9CFF' },
+          asfalto: '#050810',
+          mist: '#F5F7FA',
+          steel: '#4B5A70',
+          linha: '#E4E9F0',
+        },
+        boxShadow: { glow: '0 8px 30px -8px rgba(29,95,224,.45)' },
+        fontFamily: {
+          display: ['"Barlow Semi Condensed"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"IBM Plex Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "{{ empresa.nome }}",
+  "description": "{{ empresa.slogan }}",
+  "telephone": "{{ empresa.telefone_exibicao }}",
+  "email": "{{ empresa.email_contato }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ empresa.endereco_logradouro }}",
+    "addressLocality": "{{ empresa.endereco_cidade }}",
+    "addressRegion": "{{ empresa.endereco_estado }}",
+    "postalCode": "{{ empresa.endereco_cep }}",
+    "addressCountry": "BR"
+  },
+  "areaServed": "Minas Gerais"
+}
+</script>
+{% endblock %}
+</head>
+<body class="font-body text-asfalto bg-white antialiased">
+
+<a href="#conteudo" class="skip-link">Pular para o conteúdo</a>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 h-18 flex items-center justify-between py-3">
+    <a href="{{ url_for('index') }}" class="flex items-center gap-3 group" aria-label="{{ empresa.nome }} - página inicial">
+      <img src="{{ url_for('static', filename='img/icons/engine.png') }}" alt="" width="40" height="40" class="rounded-[10px] shadow-sm" loading="eager">
+      <span class="font-display font-bold leading-tight">
+        <span class="block text-lg text-navy tracking-tight">H.M. BORÇATO</span>
+        <span class="block text-[10px] tracking-[0.18em] text-steel uppercase -mt-1">Repr. Comercial &amp; Marketing</span>
+      </span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8 font-display text-[15px] font-semibold tracking-wide uppercase text-navy" aria-label="Navegação principal">
+      <a href="{{ url_for('index') }}" class="nav-link {{ 'nav-link-active' if request.endpoint=='index' }}">Início</a>
+      <a href="{{ url_for('sobre') }}" class="nav-link {{ 'nav-link-active' if request.endpoint=='sobre' }}">Sobre</a>
+      <a href="{{ url_for('marcas') }}" class="nav-link {{ 'nav-link-active' if request.endpoint=='marcas' }}">Linhas Representadas</a>
+      <a href="{{ url_for('cobertura') }}" class="nav-link {{ 'nav-link-active' if request.endpoint=='cobertura' }}">Cobertura</a>
+      <a href="{{ url_for('contato') }}" class="nav-link {{ 'nav-link-active' if request.endpoint=='contato' }}">Contato</a>
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-3">
+      <a href="https://wa.me/{{ empresa.whatsapp_numero }}?text={{ empresa.whatsapp_mensagem_padrao | urlencode }}"
+         target="_blank" rel="noopener"
+         class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.34a9.9 9.9 0 0 0 4.62 1.14h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Zm5.79 14.12c-.25.7-1.24 1.28-2.02 1.44-.55.11-1.26.2-3.66-.78-3.07-1.27-5.05-4.39-5.2-4.6-.15-.2-1.24-1.65-1.24-3.15s.77-2.23 1.05-2.54c.27-.3.6-.38.8-.38h.58c.19 0 .44-.07.68.53.25.6.85 2.06.92 2.21.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.31.4-.45.53-.15.15-.3.31-.13.61.17.3.76 1.26 1.63 2.04 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.68-.15.28.1 1.79.85 2.1 1 .3.15.5.23.58.35.08.13.08.75-.17 1.45Z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+
+    <button id="menu-toggle" class="lg:hidden p-2 -mr-2 text-navy" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg id="icon-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <svg id="icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="hidden"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav id="mobile-menu" class="lg:hidden hidden border-t border-linha bg-white" aria-label="Navegação mobile">
+    <div class="px-5 py-4 flex flex-col gap-1 font-display font-semibold uppercase tracking-wide text-navy">
+      <a href="{{ url_for('index') }}" class="py-3 border-b border-linha">Início</a>
+      <a href="{{ url_for('sobre') }}" class="py-3 border-b border-linha">Sobre</a>
+      <a href="{{ url_for('marcas') }}" class="py-3 border-b border-linha">Linhas Representadas</a>
+      <a href="{{ url_for('cobertura') }}" class="py-3 border-b border-linha">Cobertura</a>
+      <a href="{{ url_for('contato') }}" class="py-3 border-b border-linha">Contato</a>
+      <a href="https://wa.me/{{ empresa.whatsapp_numero }}?text={{ empresa.whatsapp_mensagem_padrao | urlencode }}" target="_blank" rel="noopener" class="btn-primary justify-center mt-3">
+        Falar no WhatsApp
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ===================== FLASH MESSAGES ===================== -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="max-w-3xl mx-auto px-5 mt-4 space-y-2">
+    {% for categoria, msg in messages %}
+    <div class="rounded-lg px-4 py-3 text-sm font-medium {{ 'bg-green-50 text-green-800 border border-green-200' if categoria=='sucesso' else 'bg-red-50 text-red-800 border border-red-200' }}" role="alert">
+      {{ msg }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+<main id="conteudo">
+{% block content %}{% endblock %}
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="section-dark grain text-white mt-24">
+  <div class="route-divider" aria-hidden="true"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
+    <div class="md:col-span-2">
+      <div class="flex items-center gap-2.5">
+        <img src="{{ url_for('static', filename='img/icons/engine.png') }}" alt="" width="28" height="28" class="rounded-[7px]" loading="lazy">
+        <span class="font-display font-bold text-xl">H.M. BORÇATO</span>
+      </div>
+      <p class="text-white/60 text-sm mt-3 max-w-sm leading-relaxed">{{ empresa.nome }} — {{ empresa.slogan }}, com mais de {{ empresa.anos_atuacao }} anos de know-how no segmento B2B.</p>
+      <div class="flex gap-3 mt-5">
+        <a href="{{ empresa.instagram }}" target="_blank" rel="noopener" aria-label="Instagram" class="social-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="{{ empresa.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.24 8.25h4.5V23H.24V8.25ZM8.25 8.25h4.31v2.02h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.75c0-1.61-.03-3.68-2.24-3.68-2.25 0-2.6 1.75-2.6 3.56V23h-4.5V8.25Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <span class="font-display font-semibold uppercase tracking-wide text-sm text-white/90">Navegação</span>
+      <ul class="mt-4 space-y-2 text-sm text-white/60">
+        <li><a href="{{ url_for('sobre') }}" class="hover:text-white transition">Sobre a empresa</a></li>
+        <li><a href="{{ url_for('marcas') }}" class="hover:text-white transition">Linhas representadas</a></li>
+        <li><a href="{{ url_for('cobertura') }}" class="hover:text-white transition">Área de cobertura</a></li>
+        <li><a href="{{ url_for('contato') }}" class="hover:text-white transition">Fale conosco</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="font-display font-semibold uppercase tracking-wide text-sm text-white/90">Contato</span>
+      <ul class="mt-4 space-y-2 text-sm text-white/60">
+        <li>{{ empresa.telefone_exibicao }}</li>
+        <li>{{ empresa.email_contato }}</li>
+        <li>{{ empresa.endereco_logradouro }}<br>{{ empresa.endereco_bairro }} — {{ empresa.endereco_cidade }}/{{ empresa.endereco_estado }}</li>
+        <li class="pt-1 font-mono text-xs">{{ empresa.horario_funcionamento }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-white/40">
+      <p>&copy; {{ ano_atual }} {{ empresa.nome }} — CNPJ {{ empresa.cnpj }}</p>
+      <p>Todos os direitos reservados. <a href="{{ url_for('admin_login') }}" class="hover:text-white/70">Painel</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp floating button -->
+<a href="https://wa.me/{{ empresa.whatsapp_numero }}?text={{ empresa.whatsapp_mensagem_padrao | urlencode }}"
+   target="_blank" rel="noopener" class="whatsapp-float" aria-label="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.34a9.9 9.9 0 0 0 4.62 1.14h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2Zm5.79 14.12c-.25.7-1.24 1.28-2.02 1.44-.55.11-1.26.2-3.66-.78-3.07-1.27-5.05-4.39-5.2-4.6-.15-.2-1.24-1.65-1.24-3.15s.77-2.23 1.05-2.54c.27-.3.6-.38.8-.38h.58c.19 0 .44-.07.68.53.25.6.85 2.06.92 2.21.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.31.4-.45.53-.15.15-.3.31-.13.61.17.3.76 1.26 1.63 2.04 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.68-.15.28.1 1.79.85 2.1 1 .3.15.5.23.58.35.08.13.08.75-.17 1.45Z"/></svg>
+</a>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

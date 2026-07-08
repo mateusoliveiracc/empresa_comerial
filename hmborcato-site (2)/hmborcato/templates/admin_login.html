@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel — {{ empresa.nome_curto }}</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { navy: '#0A1B33', action: '#1D5FE0', asfalto: '#050810' },
+    fontFamily: { display: ['"Barlow Semi Condensed"', 'sans-serif'], body: ['Inter', 'sans-serif'] }
+  }}}
+</script>
+</head>
+<body class="font-body min-h-screen flex items-center justify-center px-5" style="background:linear-gradient(160deg,#050810 0%,#0A1B33 55%,#0F2A50 100%)">
+  <div class="w-full max-w-sm bg-white rounded-2xl p-8 shadow-xl">
+    <h1 class="font-display font-bold text-2xl text-navy text-center">Painel administrativo</h1>
+    <p class="text-sm text-gray-500 text-center mt-1">{{ empresa.nome_curto }}</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for categoria, msg in messages %}
+        <div class="mt-4 rounded-lg px-4 py-3 text-sm bg-red-50 text-red-800 border border-red-200">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="mt-6 space-y-4">
+      <div>
+        <label for="senha" class="block text-sm font-semibold text-navy mb-1.5">Senha</label>
+        <input type="password" id="senha" name="senha" required autofocus
+               class="w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:border-action focus:ring-1 focus:ring-action outline-none">
+      </div>
+      <button type="submit" class="w-full bg-action text-white font-display font-bold uppercase tracking-wide text-sm rounded-lg py-3 hover:bg-blue-700 transition">
+        Entrar
+      </button>
+    </form>
+    <a href="{{ url_for('index') }}" class="block text-center text-xs text-gray-400 mt-6 hover:text-navy">&larr; Voltar ao site</a>
+  </div>
+</body>
+</html>

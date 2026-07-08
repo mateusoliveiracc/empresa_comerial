@@ -1,0 +1,229 @@
+/* ==========================================================================
+   H.M. Borçato — sistema visual
+   Paleta: preto profundo, azul-marinho e azul elétrico sobre branco.
+   Motivo: "rota de cobertura" — linha tracejada com glow azul que conecta
+   as seções, reforçando o território coberto pela empresa.
+   ========================================================================== */
+
+:root {
+  --black:      #050810;
+  --navy:       #0A1B33;
+  --navy-2:     #0F2A50;
+  --navy-3:     #153a68;
+  --blue:       #1D5FE0;
+  --blue-dark:  #0D3E9E;
+  --blue-light: #5B9CFF;
+  --white:      #FFFFFF;
+  --mist:       #F5F7FA;
+  --steel:      #4B5A70;
+  --linha:      #E4E9F0;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+body { background: var(--white); }
+
+/* Skip link (acessibilidade) */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--navy); color: #fff; padding: .75rem 1.25rem; border-radius: 0 0 .5rem 0;
+}
+.skip-link:focus { left: 0; }
+
+/* Foco visível consistente */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid var(--blue-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Textura de ruído sutil (premium, quase imperceptível) --------- */
+.grain { position: relative; isolation: isolate; }
+.grain::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .05; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.grain > * { position: relative; z-index: 1; }
+
+/* ---------- Fundo hero: gradiente radial + linear premium ---------------- */
+.hero-mesh {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(91,156,255,.30), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(29,95,224,.28), transparent 48%),
+    radial-gradient(circle at 75% 95%, rgba(13,62,158,.45), transparent 55%),
+    linear-gradient(160deg, var(--black) 0%, var(--navy) 48%, var(--navy-2) 100%);
+}
+
+.section-dark {
+  background: linear-gradient(160deg, var(--black) 0%, var(--navy) 60%, var(--navy-2) 100%);
+}
+
+/* Linhas de grade sutis no hero, como uma malha rodoviária */
+.hero-grid {
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 88px);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
+
+/* ---------- Header ---------------------------------------------------- */
+.site-header {
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: 0 1px 0 rgba(10,27,51,.06);
+}
+
+/* Nav links */
+.nav-link { position: relative; padding: .5rem 0; color: var(--navy); }
+.nav-link::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 0; border-radius: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--blue-light)); transition: width .28s cubic-bezier(.4,0,.2,1);
+}
+.nav-link:hover::after, .nav-link-active::after { width: 100%; }
+.nav-link-active { color: var(--blue); }
+
+/* ---------- Botões ------------------------------------------------------ */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+  color: #fff; font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem;
+  padding: .75rem 1.4rem; border-radius: .6rem; border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 22px -4px rgba(13,62,158,.5), inset 0 1px 0 rgba(255,255,255,.15);
+  transition: transform .2s cubic-bezier(.4,0,.2,1), box-shadow .2s ease, filter .2s ease;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -4px rgba(13,62,158,.62), inset 0 1px 0 rgba(255,255,255,.2); filter: brightness(1.06); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(255,255,255,.04); color: #fff; border: 1.5px solid rgba(255,255,255,.28);
+  font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .04em; font-size: .9rem; padding: .75rem 1.4rem; border-radius: .6rem;
+  backdrop-filter: blur(8px);
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.btn-outline:hover { border-color: var(--blue-light); background: rgba(91,156,255,.1); transform: translateY(-2px); }
+
+.btn-dark {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--black) 100%); color: #fff;
+  font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .04em; font-size: .9rem; padding: .75rem 1.4rem; border-radius: .6rem;
+  box-shadow: 0 8px 20px -6px rgba(10,27,51,.4);
+  transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -6px rgba(10,27,51,.5); }
+
+/* ---------- Glass cards (sobre fundo escuro) ----------------------------- */
+.glass-card {
+  background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,.5);
+}
+
+/* Ícones em badge com gradiente sutil (fundo claro) */
+.icon-badge {
+  background: linear-gradient(150deg, rgba(29,95,224,.12) 0%, rgba(29,95,224,.04) 100%);
+  border: 1px solid rgba(29,95,224,.12);
+}
+/* Ícones em badge sobre fundo escuro */
+.icon-badge-dark {
+  background: linear-gradient(150deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.04) 100%);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+/* Social icons no footer */
+.social-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 999px;
+  background: linear-gradient(150deg, rgba(255,255,255,.1), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.1); color: #fff;
+  transition: background .22s ease, transform .22s ease, border-color .22s ease;
+}
+.social-icon:hover { background: linear-gradient(135deg, var(--blue), var(--blue-dark)); border-color: transparent; transform: translateY(-2px); }
+
+/* ---------- Linha de rota (divisor estilo rodovia com glow) -------------- */
+.route-divider {
+  height: 3px; width: 100%; position: relative;
+  background-image: repeating-linear-gradient(90deg, var(--blue-light) 0 24px, transparent 24px 44px);
+  opacity: .95;
+  filter: drop-shadow(0 0 6px rgba(91,156,255,.55));
+}
+.route-divider-v {
+  width: 3px;
+  background-image: repeating-linear-gradient(180deg, var(--blue) 0 10px, transparent 10px 22px);
+  opacity: .35;
+}
+
+/* ---------- Reveal on scroll --------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Marcador de rota (waypoint) no mapa de cobertura -------------- */
+.waypoint { transition: transform .25s cubic-bezier(.34,1.56,.64,1); cursor: pointer; transform-box: fill-box; transform-origin: center; }
+.waypoint:hover, .waypoint:focus-visible { transform: scale(1.25); }
+.waypoint circle:first-child { filter: drop-shadow(0 3px 8px rgba(10,27,51,.35)); }
+.pulse-ring {
+  fill: none; stroke: var(--blue-light); stroke-width: 2;
+  animation: pulse-ring 2.6s cubic-bezier(.2,.7,.4,1) infinite;
+  transform-box: fill-box; transform-origin: center;
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(.55); opacity: .65; }
+  80%  { transform: scale(1.9); opacity: 0; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+/* Card hover lift com sombra colorida (fundo claro) */
+.lift { transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease, border-color .28s ease; }
+.lift:hover { transform: translateY(-5px); box-shadow: 0 24px 44px -16px rgba(10,27,51,.2), 0 8px 18px -10px rgba(29,95,224,.18); border-color: rgba(29,95,224,.25); }
+
+/* Path drawing animation (respeita prefers-reduced-motion, bloco acima) */
+.route-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  transition: stroke-dashoffset 2s cubic-bezier(.16,1,.3,1);
+  filter: drop-shadow(0 0 5px rgba(91,156,255,.7));
+}
+.route-path.is-visible { stroke-dashoffset: 0; }
+
+/* ---------- Timeline (Sobre) --------------------------------------------- */
+.timeline-dot {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%);
+  box-shadow: 0 8px 18px -6px rgba(13,62,158,.5), 0 0 0 4px var(--mist);
+}
+
+/* ---------- Botão flutuante do WhatsApp ----------------------------------- */
+.whatsapp-float {
+  position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 50;
+  width: 60px; height: 60px; border-radius: 999px;
+  background: linear-gradient(135deg, #25D366, #128C4A);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 28px -6px rgba(18,140,74,.55), 0 0 0 0 rgba(37,211,102,.5);
+  animation: wa-pulse 2.8s ease-in-out infinite;
+  transition: transform .2s ease;
+}
+.whatsapp-float:hover { transform: scale(1.08) translateY(-2px); }
+@keyframes wa-pulse {
+  0%, 100% { box-shadow: 0 10px 28px -6px rgba(18,140,74,.55), 0 0 0 0 rgba(37,211,102,.45); }
+  50% { box-shadow: 0 10px 28px -6px rgba(18,140,74,.55), 0 0 0 10px rgba(37,211,102,0); }
+}
+
+/* Mensagem count badge (admin) */
+.badge-unread {
+  display: inline-flex; min-width: 1.4rem; height: 1.4rem; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark)); color: #fff; font-size: .7rem; border-radius: 999px; padding: 0 .3rem;
+}
+
+/* Divisor curvo entre hero escuro e seção clara (assinatura visual sutil) */
+.curve-divider { display: block; width: 100%; height: 64px; margin-bottom: -1px; }
+
+::selection { background: var(--blue); color: #fff; }

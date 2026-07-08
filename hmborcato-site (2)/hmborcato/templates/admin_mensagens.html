@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensagens — Painel {{ empresa.nome_curto }}</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { navy: '#0A1B33', action: '#1D5FE0', asfalto: '#050810', mist: '#F5F7FA', steel: '#4B5A70', linha: '#E4E9F0' },
+    fontFamily: { display: ['"Barlow Semi Condensed"', 'sans-serif'], body: ['Inter', 'sans-serif'], mono: ['"IBM Plex Mono"', 'monospace'] }
+  }}}
+</script>
+</head>
+<body class="font-body bg-mist min-h-screen">
+
+  <header class="text-white" style="background:linear-gradient(160deg,#050810 0%,#0A1B33 55%,#0F2A50 100%)">
+    <div class="max-w-5xl mx-auto px-5 py-5 flex items-center justify-between">
+      <div>
+        <h1 class="font-display font-bold text-xl">Mensagens recebidas</h1>
+        <p class="text-white/60 text-xs font-mono">{{ empresa.nome_curto }} — painel interno</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="{{ url_for('index') }}" class="text-sm text-white/70 hover:text-white">Ver site</a>
+        <a href="{{ url_for('admin_logout') }}" class="text-sm bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition">Sair</a>
+      </div>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="max-w-5xl mx-auto px-5 mt-4 space-y-2">
+      {% for categoria, msg in messages %}
+      <div class="rounded-lg px-4 py-3 text-sm bg-green-50 text-green-800 border border-green-200">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <main class="max-w-5xl mx-auto px-5 py-8">
+    <p class="text-steel text-sm mb-5">{{ mensagens|length }} mensagem(ns) no total.</p>
+
+    {% if not mensagens %}
+    <div class="bg-white rounded-2xl p-10 text-center border border-linha">
+      <p class="text-steel">Nenhuma mensagem recebida ainda.</p>
+    </div>
+    {% endif %}
+
+    <div class="space-y-4">
+      {% for m in mensagens %}
+      <div class="bg-white rounded-2xl border {{ 'border-linha' if m.lida else 'border-action' }} p-6">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-display font-bold text-navy text-lg">{{ m.nome }}</h2>
+              {% if not m.lida %}<span class="badge-unread bg-action text-white text-[10px] px-2 py-0.5 rounded-full font-mono">NOVA</span>{% endif %}
+            </div>
+            <p class="text-steel text-xs font-mono mt-1">{{ m.criado_em }}{% if m.empresa %} · {{ m.empresa }}{% endif %}{% if m.cidade %} · {{ m.cidade }}{% endif %}</p>
+          </div>
+          <div class="flex gap-2 text-xs">
+            {% if not m.lida %}
+            <a href="{{ url_for('marcar_lida', msg_id=m.id) }}" class="px-3 py-1.5 rounded-lg bg-navy/5 text-navy hover:bg-navy/10">Marcar como lida</a>
+            {% endif %}
+            <a href="{{ url_for('excluir_mensagem', msg_id=m.id) }}" onclick="return confirm('Excluir esta mensagem?');" class="px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100">Excluir</a>
+          </div>
+        </div>
+        <p class="text-asfalto text-sm mt-4 leading-relaxed">{{ m.mensagem }}</p>
+        <div class="mt-4 pt-4 border-t border-linha flex flex-wrap gap-x-6 gap-y-1 text-xs text-steel font-mono">
+          <span>Tel: {{ m.telefone }}</span>
+          {% if m.email %}<span>E-mail: {{ m.email }}</span>{% endif %}
+          {% if m.assunto %}<span>Assunto: {{ m.assunto }}</span>{% endif %}
+          <a href="https://wa.me/55{{ m.telefone | replace('(', '') | replace(')', '') | replace('-', '') | replace(' ', '') }}" target="_blank" rel="noopener" class="text-action hover:underline">Responder no WhatsApp &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Linhas Representadas — {{ empresa.nome }}{% endblock %}
+{% block description %}Conheça as linhas de autopeças representadas pela {{ empresa.nome }} em Minas Gerais: motor, freios, suspensão, elétrica, filtros e mais.{% endblock %}
+
+{% block content %}
+
+<section class="hero-mesh grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="font-mono text-action-light text-xs tracking-widest uppercase mb-3 reveal">Portfólio</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Linhas de autopeças representadas.</h1>
+    <p class="text-white/70 mt-5 max-w-2xl leading-relaxed reveal">Atendemos lojistas, distribuidores e redes de reposição com um portfólio amplo, pensado para cobrir diferentes perfis de demanda do mercado mineiro.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== MARCAS PARCEIRAS ===================== -->
+<section class="bg-navy">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-10">
+    <p class="font-mono text-action-light text-xs tracking-widest uppercase mb-6 text-center reveal">Marcas que representamos</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      {% for m in marcas_parceiras %}
+      <div class="reveal glass-card rounded-xl px-7 py-4" style="transition-delay:{{ loop.index0 * 0.06 }}s">
+        <span class="font-display font-bold text-lg sm:text-xl tracking-wide text-white/90">{{ m.nome }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for l in linhas %}
+    <div class="reveal lift bg-white border border-linha rounded-2xl p-7" style="transition-delay:{{ (loop.index0 % 6) * 0.06 }}s">
+      {% if l.img %}
+      <img src="{{ url_for('static', filename='img/icons/' + l.img) }}" alt="" class="w-12 h-12 rounded-xl" loading="lazy">
+      {% else %}
+      <div class="icon-badge w-12 h-12 rounded-xl text-action flex items-center justify-center">{{ icon(l.icone, 'w-6 h-6') }}</div>
+      {% endif %}
+      <h2 class="font-display font-bold text-lg text-navy mt-4">{{ l.nome }}</h2>
+      <p class="text-steel text-sm mt-2 leading-relaxed">{{ l.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-16 bg-mist rounded-2xl p-8 sm:p-10 reveal">
+    <div class="grid md:grid-cols-3 gap-8 items-center">
+      <div class="md:col-span-2">
+        <h2 class="font-display font-bold text-2xl text-navy">Não encontrou a linha que procura?</h2>
+        <p class="text-steel text-sm mt-2 leading-relaxed max-w-lg">Nosso portfólio é atualizado continuamente conforme novas parcerias. Fale com nossa equipe comercial para verificar disponibilidade de marcas e condições especiais.</p>
+      </div>
+      <a href="{{ url_for('contato') }}" class="btn-primary justify-center md:justify-start">
+        Falar com um consultor {{ icon('arrow-right', 'w-4 h-4') }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

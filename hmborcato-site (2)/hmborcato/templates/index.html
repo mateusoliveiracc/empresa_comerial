@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}{{ empresa.nome }} — {{ empresa.slogan }}{% endblock %}
+
+{% block content %}
+
+<!-- ===================== HERO ===================== -->
+<section class="relative hero-mesh grain text-white overflow-hidden">
+  <div class="absolute inset-0 hero-grid pointer-events-none"></div>
+
+  <!-- Ilustração de rodovia mineira ao fundo — decorativa, opacidade baixa para não competir com o texto -->
+  <svg class="absolute inset-x-0 bottom-0 w-full h-[42%] sm:h-[48%] pointer-events-none" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="fadeTop" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0A1B33" stop-opacity="0"/>
+        <stop offset="1" stop-color="#0A1B33" stop-opacity="0"/>
+      </linearGradient>
+      <mask id="heroFade">
+        <linearGradient id="fadeGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="white" stop-opacity="0"/>
+          <stop offset="0.35" stop-color="white" stop-opacity=".5"/>
+          <stop offset="1" stop-color="white" stop-opacity="1"/>
+        </linearGradient>
+        <rect x="0" y="0" width="1440" height="420" fill="url(#fadeGrad)"/>
+      </mask>
+    </defs>
+    <g mask="url(#heroFade)">
+      <!-- Serra ao fundo (mais clara/distante) -->
+      <path d="M0,300 L110,225 L230,275 L360,175 L480,240 L620,150 L780,235 L930,165 L1080,250 L1230,185 L1360,235 L1440,205 L1440,420 L0,420 Z" fill="rgba(255,255,255,.045)"/>
+      <!-- Serra intermediária -->
+      <path d="M0,345 L160,290 L320,335 L500,270 L680,325 L840,280 L1020,335 L1200,285 L1440,320 L1440,420 L0,420 Z" fill="rgba(255,255,255,.06)"/>
+
+      <!-- Rodovia em perspectiva -->
+      <path d="M540,420 L900,420 L770,255 L670,255 Z" fill="rgba(2,7,15,.55)"/>
+      <path d="M540,420 L900,420 L860,420 L708,255 L670,255 Z" fill="rgba(2,7,15,.2)"/>
+      <!-- Faixa central tracejada, efeito de fuga em perspectiva -->
+      <g fill="none" stroke="#5B9CFF" stroke-width="6" stroke-linecap="round" opacity=".55">
+        <line x1="720" y1="400" x2="720" y2="378"/>
+        <line x1="718" y1="358" x2="718" y2="338"/>
+        <line x1="716" y1="320" x2="716" y2="304"/>
+        <line x1="714" y1="288" x2="714" y2="276"/>
+        <line x1="712" y1="266" x2="712" y2="258"/>
+      </g>
+
+      <!-- Silhueta de carro sobre a pista -->
+      <g transform="translate(600,382)" opacity=".85">
+        <rect x="0" y="10" width="86" height="20" rx="6" fill="#0A1B33"/>
+        <path d="M14,10 Q26,-10 46,-10 Q64,-10 74,10 Z" fill="#0A1B33"/>
+        <circle cx="18" cy="32" r="8" fill="#050810"/>
+        <circle cx="68" cy="32" r="8" fill="#050810"/>
+        <rect x="20" y="-4" width="44" height="10" rx="2" fill="#5B9CFF" opacity=".5"/>
+      </g>
+    </g>
+  </svg>
+
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-24 lg:pt-24 lg:pb-32 grid lg:grid-cols-12 gap-10 items-center">
+    <div class="lg:col-span-7 reveal">
+      <p class="inline-flex items-center gap-2 font-mono text-action-light text-xs sm:text-sm tracking-widest uppercase mb-5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+        <span class="w-1.5 h-1.5 rounded-full bg-action-light animate-pulse"></span>
+        Representação comercial de autopeças · Minas Gerais
+      </p>
+      <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+        Cobrindo Minas Gerais há <span class="text-action-light">mais de {{ empresa.anos_atuacao }} anos</span> com know-how B2B em autopeças.
+      </h1>
+      <p class="mt-6 text-white/70 text-lg max-w-xl leading-relaxed">
+        A {{ empresa.nome_curto }} conecta indústrias e distribuidores de autopeças a lojistas e revendedores em todo o estado, com atendimento consultivo e relacionamento de longo prazo.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-4">
+        <a href="{{ url_for('contato') }}" class="btn-primary text-base px-6 py-3.5">
+          Solicitar orçamento {{ icon('arrow-right', 'w-4 h-4') }}
+        </a>
+        <a href="{{ url_for('marcas') }}" class="btn-outline text-base px-6 py-3.5">Ver linhas representadas</a>
+      </div>
+
+      <dl class="mt-14 grid grid-cols-3 gap-6 max-w-lg font-mono">
+        <div>
+          <dt class="text-2xl sm:text-3xl font-bold text-white">{{ empresa.anos_atuacao }}+</dt>
+          <dd class="text-white/50 text-xs uppercase tracking-wide mt-1">Anos de mercado</dd>
+        </div>
+        <div>
+          <dt class="text-2xl sm:text-3xl font-bold text-white">{{ regioes|length }}</dt>
+          <dd class="text-white/50 text-xs uppercase tracking-wide mt-1">Regiões atendidas</dd>
+        </div>
+        <div>
+          <dt class="text-2xl sm:text-3xl font-bold text-white">{{ linhas|length }}+</dt>
+          <dd class="text-white/50 text-xs uppercase tracking-wide mt-1">Linhas de produto</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="lg:col-span-5 reveal" style="transition-delay:.1s">
+      <div class="relative glass-card rounded-2xl p-6 sm:p-8">
+        <p class="font-display uppercase tracking-widest text-xs text-action-light mb-4">Rota de cobertura</p>
+        <svg viewBox="0 0 220 140" class="w-full h-auto" aria-hidden="true">
+          <path d="M20 110 C 50 70, 60 40, 100 30 S 170 20, 200 40" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="2"/>
+          <path class="route-path" d="M20 110 C 50 70, 60 40, 100 30 S 170 20, 200 40" fill="none" stroke="#5B9CFF" stroke-width="2.5" stroke-dasharray="6 6"/>
+          <circle cx="20" cy="110" r="4.5" fill="#fff"/>
+          <circle cx="100" cy="30" r="4.5" fill="#5B9CFF"/>
+          <circle cx="200" cy="40" r="4.5" fill="#fff"/>
+        </svg>
+        <p class="text-white/60 text-sm mt-4 leading-relaxed">Atendimento direto nas principais regiões de Minas Gerais, do Triângulo Mineiro à Zona da Mata.</p>
+        <a href="{{ url_for('cobertura') }}" class="inline-flex items-center gap-1.5 text-action-light text-sm font-semibold mt-4 hover:underline">
+          Ver mapa completo {{ icon('arrow-right', 'w-3.5 h-3.5') }}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== DIFERENCIAIS ===================== -->
+<section class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+  <div class="max-w-2xl reveal">
+    <p class="font-mono text-action text-xs tracking-widest uppercase mb-3">Por que a {{ empresa.nome_curto }}</p>
+    <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Know-how comercial que vira resultado no ponto de venda.</h2>
+  </div>
+  <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for d in diferenciais %}
+    <div class="reveal lift bg-white border border-linha rounded-2xl p-6" style="transition-delay:{{ loop.index0 * 0.08 }}s">
+      <div class="icon-badge w-12 h-12 rounded-xl text-action flex items-center justify-center">{{ icon(d.icone, 'w-6 h-6') }}</div>
+      <h3 class="font-display font-bold text-lg text-navy mt-4">{{ d.titulo }}</h3>
+      <p class="text-steel text-sm mt-2 leading-relaxed">{{ d.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===================== MARCAS PARCEIRAS ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-14">
+    <p class="font-mono text-action-light text-xs tracking-widest uppercase mb-8 text-center reveal">Marcas que representamos</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      {% for m in marcas_parceiras %}
+      <div class="reveal glass-card rounded-xl px-7 py-4" style="transition-delay:{{ loop.index0 * 0.06 }}s">
+        <span class="font-display font-bold text-lg sm:text-xl tracking-wide text-white/90">{{ m.nome }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LINHAS DE PRODUTO (prévia) ===================== -->
+<section class="bg-mist">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6 reveal">
+      <div class="max-w-xl">
+        <p class="font-mono text-action text-xs tracking-widest uppercase mb-3">Portfólio</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Linhas de autopeças representadas.</h2>
+      </div>
+      <a href="{{ url_for('marcas') }}" class="btn-dark">Ver portfólio completo</a>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% for l in linhas %}
+      <div class="reveal lift bg-white rounded-2xl p-6 border border-linha flex gap-4" style="transition-delay:{{ loop.index0 * 0.06 }}s">
+        {% if l.img %}
+        <img src="{{ url_for('static', filename='img/icons/' + l.img) }}" alt="" class="w-11 h-11 shrink-0 rounded-lg" loading="lazy">
+        {% else %}
+        <div class="icon-badge w-11 h-11 shrink-0 rounded-lg text-action flex items-center justify-center">{{ icon(l.icone, 'w-5 h-5') }}</div>
+        {% endif %}
+        <div>
+          <h3 class="font-display font-bold text-navy">{{ l.nome }}</h3>
+          <p class="text-steel text-sm mt-1 leading-relaxed">{{ l.desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA FINAL ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 grid lg:grid-cols-2 gap-10 items-center">
+    <div class="reveal">
+      <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight">Pronto para ampliar sua carteira de autopeças em Minas Gerais?</h2>
+      <p class="text-white/70 mt-4 max-w-lg leading-relaxed">Fale com nossa equipe comercial e conheça as condições para lojistas, distribuidores e indústrias.</p>
+    </div>
+    <div class="flex flex-wrap gap-4 lg:justify-end reveal">
+      <a href="{{ url_for('contato') }}" class="btn-primary text-base px-6 py-3.5">Solicitar orçamento</a>
+      <a href="https://wa.me/{{ empresa.whatsapp_numero }}?text={{ empresa.whatsapp_mensagem_padrao | urlencode }}" target="_blank" rel="noopener" class="btn-outline text-base px-6 py-3.5">Falar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
