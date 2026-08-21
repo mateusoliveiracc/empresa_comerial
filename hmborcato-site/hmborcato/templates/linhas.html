@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Linhas de Produto — {{ empresa.nome }}{% endblock %}
+{% block description %}Catálogo de linhas de autopeças representadas pela {{ empresa.nome }} em Minas Gerais, organizadas por categoria e marca.{% endblock %}
+
+{% block content %}
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="spec-label text-blue-300 mb-4 reveal">Catálogo</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Linhas de autopeças representadas.</h1>
+    <p class="text-white/65 mt-5 max-w-2xl leading-relaxed reveal" style="transition-delay:.08s">Cada categoria abaixo corresponde a uma marca confirmada da nossa carteira — organizamos por linha para facilitar sua busca.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== GRADE DE LINHAS (estilo catálogo) ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pb-20">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for l in linhas %}
+      <div class="reveal tech-card-dark rounded overflow-hidden" style="transition-delay:{{ (loop.index0 % 6) * 0.06 }}s">
+        <div class="aspect-[4/3] bg-gradient-to-br from-navy to-asfalto flex items-center justify-center relative">
+          {% if l.img %}
+          <img src="{{ url_for('static', filename='img/icons/' + l.img) }}" alt="{{ l.nome }}" class="w-24 h-24 rounded" loading="lazy">
+          {% else %}
+          <div class="icon-badge-dark w-16 h-16 rounded flex items-center justify-center text-blue-300">{{ icon(l.icone, 'w-8 h-8') }}</div>
+          {% endif %}
+          <span class="absolute top-3 right-3 spec-label text-white/35">{{ "%02d"|format(loop.index) }}</span>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="font-display font-bold text-lg text-white">{{ l.nome }}</h2>
+            <span class="text-blue-300 text-xs font-mono uppercase tracking-wide shrink-0">{{ l.marca }}</span>
+          </div>
+          <p class="text-white/55 text-sm mt-2 leading-relaxed">{{ l.desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="bg-mist">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16">
+    <div class="bg-white rounded p-8 sm:p-10 border border-linha reveal">
+      <div class="grid md:grid-cols-3 gap-8 items-center">
+        <div class="md:col-span-2">
+          <h2 class="font-display font-bold text-2xl text-navy">Não encontrou a linha que procura?</h2>
+          <p class="text-steel text-sm mt-2 leading-relaxed max-w-lg">Nosso portfólio é atualizado conforme novas parcerias. Fale com a equipe comercial para verificar disponibilidade de produtos e condições especiais.</p>
+        </div>
+        <a href="{{ url_for('contato') }}" class="btn-primary justify-center md:justify-start">Falar com um consultor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

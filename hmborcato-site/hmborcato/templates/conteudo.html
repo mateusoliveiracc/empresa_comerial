@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Mercado & Novidades — {{ empresa.nome }}{% endblock %}
+{% block description %}Lançamentos, novidades de marcas e informações do mercado de autopeças, pela {{ empresa.nome }}.{% endblock %}
+
+{% block content %}
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="spec-label text-blue-300 mb-4 reveal">Conteúdo</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Mercado &amp; Novidades.</h1>
+    <p class="text-white/65 mt-5 max-w-2xl leading-relaxed reveal" style="transition-delay:.08s">Lançamentos de produtos, novidades das marcas representadas e informações do mercado automotivo mineiro.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<section class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+  {% if noticias %}
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for n in noticias %}
+    <div class="reveal tech-card rounded overflow-hidden flex flex-col" style="transition-delay:{{ loop.index0 * 0.06 }}s">
+      <div class="img-fallback-wrap aspect-[16/10] bg-navy {{ 'img-failed' if not n.foto }}">
+        {% if n.foto %}
+        <img src="{{ fotos[n.foto] }}" alt="{{ n.titulo }}" class="js-img-fallback w-full h-full object-cover" loading="lazy">
+        {% endif %}
+        <div class="img-fallback-bg">
+          <div class="icon-badge-dark w-12 h-12 rounded flex items-center justify-center text-blue-300">{{ icon('award', 'w-6 h-6') }}</div>
+        </div>
+      </div>
+      <div class="p-7 flex flex-col flex-1">
+        <span class="spec-label text-action">{{ n.categoria }}</span>
+        <h2 class="font-display font-bold text-xl text-navy mt-3 leading-snug">{{ n.titulo }}</h2>
+        <p class="text-steel text-sm mt-3 leading-relaxed flex-1">Conteúdo completo em atualização — em breve, mais detalhes sobre esta novidade.</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="mt-16 bg-mist rounded p-8 sm:p-10 border border-linha text-center reveal">
+    <p class="text-steel text-sm max-w-lg mx-auto leading-relaxed">Esta seção está estruturada para receber lançamentos e novidades completas assim que o conteúdo for fornecido. Acompanhe também nossas redes sociais para atualizações.</p>
+    <div class="flex justify-center gap-3 mt-5">
+      <a href="{{ empresa.instagram }}" target="_blank" rel="noopener" class="btn-dark">Instagram</a>
+      <a href="{{ empresa.facebook }}" target="_blank" rel="noopener" class="btn-dark">Facebook</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Atuação em Minas Gerais — {{ empresa.nome }}{% endblock %}
+{% block description %}Veja as regiões de Minas Gerais atendidas pela {{ empresa.nome }}: {{ territorio.municipios }} municípios, {{ territorio.area }}.{% endblock %}
+
+{% block content %}
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="spec-label text-blue-300 mb-4 reveal">Território</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Presença ativa nas principais regiões de Minas Gerais.</h1>
+    <p class="text-white/65 mt-5 max-w-2xl leading-relaxed reveal" style="transition-delay:.08s">Mantemos uma estratégia de cobertura presencial constante em todo o estado, com rotas comerciais planejadas e sistema de gestão em nuvem.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== FICHA DO TERRITÓRIO (dados reais de MG) ===================== -->
+<section class="bg-mist border-b border-linha">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-12">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono">
+      <div class="reveal">
+        <dt class="text-2xl font-semibold text-navy">{{ territorio.area }}</dt>
+        <dd class="text-steel text-[11px] uppercase tracking-wide mt-1">Área do estado</dd>
+      </div>
+      <div class="reveal" style="transition-delay:.05s">
+        <dt class="text-2xl font-semibold text-navy">{{ territorio.municipios }}</dt>
+        <dd class="text-steel text-[11px] uppercase tracking-wide mt-1">Municípios</dd>
+      </div>
+      <div class="reveal" style="transition-delay:.1s">
+        <dt class="text-2xl font-semibold text-navy">{{ territorio.populacao }}</dt>
+        <dd class="text-steel text-[11px] uppercase tracking-wide mt-1">{{ territorio.populacao_desc }}</dd>
+      </div>
+      <div class="reveal" style="transition-delay:.15s">
+        <dt class="text-2xl font-semibold text-navy">{{ territorio.frota }}</dt>
+        <dd class="text-steel text-[11px] uppercase tracking-wide mt-1">{{ territorio.frota_desc }}</dd>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MAPA ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+  <div class="grid lg:grid-cols-5 gap-10 items-start">
+
+    <div class="lg:col-span-3 reveal mg-map-panel rounded p-6 sm:p-8">
+      <svg viewBox="0 0 500 520" class="w-full h-auto" role="img" aria-label="Mapa estilizado das regiões de Minas Gerais atendidas pela H.M. Borçato">
+        <path class="mg-shape" d="M170,60 C260,35 360,55 415,110 C465,150 480,220 450,275 C480,325 460,400 400,435 C340,472 250,462 195,435 C135,462 70,420 55,360 C25,318 35,248 65,198 C45,148 70,90 170,60 Z" stroke-width="1.5"/>
+
+        <path class="route-path" fill="none" stroke="#5B8FCE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+              d="M300,300 L260,230 L130,300 L90,210 L250,90 L430,260 L420,400 L200,440"/>
+        <path class="mg-route-ghost" fill="none" stroke-width="1.5" stroke-dasharray="1 8"
+              d="M300,300 L260,230 L130,300 L90,210 L250,90 L430,260 L420,400 L200,440"/>
+
+        {% for r in regioes %}
+        <g class="waypoint mg-waypoint" tabindex="0" data-regiao="{{ loop.index0 }}" role="img" aria-label="{{ r.nome }}: {{ r.cidades }}">
+          <rect x="{{ r.x - 6 }}" y="{{ r.y - 6 }}" width="12" height="12" stroke-width="2" transform="rotate(45 {{ r.x }} {{ r.y }})"/>
+        </g>
+        {% endfor %}
+      </svg>
+      <p class="text-white/35 text-xs text-center mt-2 font-mono">Mapa estilizado, sem escala cartográfica — apenas ilustrativo.</p>
+    </div>
+
+    <div class="lg:col-span-2 reveal" style="transition-delay:.1s">
+      <p class="spec-label text-blue-300 mb-4">Regiões atendidas</p>
+      <div class="space-y-3">
+        {% for r in regioes %}
+        <div data-regiao-card="{{ loop.index0 }}" class="tech-card-dark rounded p-4">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 shrink-0 icon-badge-dark rounded flex items-center justify-center text-blue-300 mt-0.5">{{ icon('pin', 'w-4 h-4') }}</div>
+            <div>
+              <h2 class="font-display font-bold text-white leading-tight">{{ r.nome }}</h2>
+              <p class="text-white/55 text-sm mt-1">{{ r.cidades }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="bg-mist">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div class="text-center sm:text-left">
+      <h2 class="font-display font-bold text-2xl sm:text-3xl text-navy tracking-tight">Sua cidade está na nossa rota?</h2>
+      <p class="text-steel text-sm mt-2">Fale com a gente e confirme o atendimento na sua região.</p>
+    </div>
+    <a href="{{ url_for('contato') }}" class="btn-primary shrink-0">Falar com um consultor</a>
+  </div>
+</section>
+
+{% endblock %}

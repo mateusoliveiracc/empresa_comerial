@@ -1,0 +1,287 @@
+/* ==========================================================================
+   H.M. Borçato — sistema visual v3
+   Direção: industrial / automotivo / corporativo — não SaaS.
+   Base grafite + azul acero restrito, linhas técnicas tipo ficha de catálogo,
+   sem glow neon, sem glassmorphism, sem pulso. A marca é peça e rota, não app.
+   ========================================================================== */
+
+:root {
+  --graphite-950: #0A0C0F;
+  --graphite-900: #12151A;
+  --graphite-800: #1C222B;
+  --steel-700:    #3B4552;
+  --steel-500:    #5B6672;
+  --steel-300:    #8C97A3;
+  --paper:        #F1F2F4;
+  --paper-2:      #E7E9EC;
+  --white:        #FFFFFF;
+  --line:         #DBDFE4;
+  --blue-800:     #0D2A50;
+  --blue-700:     #14396E;
+  --blue-600:     #1B4F91;
+  --blue-500:     #2563AC;
+  --blue-300:     #7FA8D6;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+body { background: var(--white); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--graphite-900); color: #fff; padding: .75rem 1.25rem; border-radius: 0 0 .35rem 0;
+}
+.skip-link:focus { left: 0; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2.5px solid var(--blue-500);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Textura leve tipo papel técnico ------------------------------ */
+.grain { position: relative; isolation: isolate; }
+.grain::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .035; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.grain > * { position: relative; z-index: 1; }
+
+/* ---------- Fundo escuro industrial (sem gradiente mesh glow) ------------ */
+.section-dark {
+  background: linear-gradient(175deg, var(--graphite-950) 0%, var(--graphite-900) 55%, var(--graphite-800) 100%);
+}
+
+/* Malha técnica tipo papel milimetrado — usar com MUITA moderação (não em heros) */
+.tech-grid {
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 56px);
+  mask-image: linear-gradient(to bottom, black, black 60%, transparent 100%);
+}
+
+/* Ícone de peça em marca d'água — grande, discreto, nunca compete com texto */
+.part-watermark {
+  position: absolute; pointer-events: none; opacity: .07; filter: grayscale(1) brightness(2.4);
+  z-index: 0;
+}
+
+/* ---------- Hero com fotografia real -------------------------------------- */
+.hero-photo-frame {
+  position: relative; overflow: hidden; background: var(--graphite-800);
+}
+.hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+/* overlay escuro sutil para manter legibilidade sem esconder a foto */
+.hero-photo-frame::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(100deg, var(--graphite-950) 0%, rgba(10,12,15,.32) 26%, transparent 55%);
+}
+
+/* Fallback genérico para qualquer <img> hotlinked: se falhar, escondemos a
+   tag (via JS) e revelamos o painel .img-fallback-bg que fica atrás dela. */
+.img-fallback-wrap { position: relative; }
+.img-fallback-wrap > img { position: relative; z-index: 1; }
+.img-fallback-bg {
+  position: absolute; inset: 0; z-index: 0; display: none;
+  align-items: center; justify-content: center;
+  background: linear-gradient(150deg, var(--graphite-800), var(--graphite-900));
+}
+.img-fallback-wrap.img-failed .img-fallback-bg { display: flex; }
+
+/* ---------- Mapa de MG escuro e premium ------------------------------------ */
+.mg-map-panel {
+  background: linear-gradient(175deg, var(--graphite-950) 0%, var(--graphite-900) 100%);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.mg-map-panel .mg-shape { fill: rgba(255,255,255,.03); stroke: rgba(255,255,255,.14); }
+.mg-map-panel .mg-route-ghost { stroke: rgba(255,255,255,.12); }
+.mg-map-panel .mg-waypoint rect { fill: var(--blue-500); stroke: var(--graphite-950); }
+.mg-map-panel .mg-waypoint-label { fill: rgba(255,255,255,.55); font-family: 'IBM Plex Mono', monospace; }
+
+/* ---------- Header ------------------------------------------------------- */
+.site-header {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-link { position: relative; padding: .5rem 0; color: var(--graphite-900); }
+.nav-link::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 0;
+  background: var(--blue-600); transition: width .22s ease;
+}
+.nav-link:hover::after, .nav-link-active::after { width: 100%; }
+.nav-link-active { color: var(--blue-600); }
+
+/* ---------- Rótulo técnico tipo ficha de catálogo ------------------------ */
+.spec-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: .72rem; letter-spacing: .14em;
+  text-transform: uppercase; display: inline-flex; align-items: center; gap: .5rem;
+}
+.spec-label::before { content: ""; width: 18px; height: 1px; background: currentColor; opacity: .55; display: inline-block; }
+
+/* ---------- Botões (planos, sem bloom) ------------------------------------ */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: var(--blue-600); color: #fff; font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem;
+  padding: .8rem 1.5rem; border-radius: .3rem; border: 1px solid var(--blue-700);
+  transition: background .18s ease, transform .18s ease;
+}
+.btn-primary:hover { background: var(--blue-700); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.35);
+  font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .04em; font-size: .9rem; padding: .8rem 1.5rem; border-radius: .3rem;
+  transition: border-color .18s ease, background .18s ease;
+}
+.btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.06); }
+
+.btn-dark {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: var(--graphite-900); color: #fff; font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem;
+  padding: .8rem 1.5rem; border-radius: .3rem; transition: background .18s ease, transform .18s ease;
+}
+.btn-dark:hover { background: #262d38; transform: translateY(-1px); }
+
+.btn-whatsapp {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: #1e8a52; color: #fff; font-family: 'Barlow Semi Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem;
+  padding: .8rem 1.5rem; border-radius: .3rem; border: 1px solid #146b3e;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn-whatsapp:hover { background: #146b3e; transform: translateY(-1px); }
+
+/* ---------- Cards técnicos com cantos de desenho de engenharia ------------ */
+.tech-card {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--white);
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.tech-card::before, .tech-card::after {
+  content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--blue-600); opacity: 0; transition: opacity .2s ease;
+}
+.tech-card::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+.tech-card::after { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+.tech-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px -18px rgba(10,12,15,.35); border-color: transparent; }
+.tech-card:hover::before, .tech-card:hover::after { opacity: 1; }
+
+.tech-card-dark {
+  position: relative;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.03);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.tech-card-dark::before, .tech-card-dark::after {
+  content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none;
+  border-color: var(--blue-300); opacity: 0; transition: opacity .2s ease;
+}
+.tech-card-dark::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+.tech-card-dark::after { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+.tech-card-dark:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.14); }
+.tech-card-dark:hover::before, .tech-card-dark:hover::after { opacity: 1; }
+
+/* Badge de ícone — quadrado levemente arredondado, sem gradiente brilhante */
+.icon-badge {
+  background: var(--paper); border: 1px solid var(--line);
+}
+.icon-badge-dark {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+}
+
+/* Social icons no footer */
+.social-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; border-radius: .3rem;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); color: #fff;
+  transition: background .2s ease, border-color .2s ease;
+}
+.social-icon:hover { background: var(--blue-600); border-color: var(--blue-600); }
+
+/* ---------- Linha de rota (hairline, sem glow) ---------------------------- */
+.route-divider {
+  height: 1px; width: 100%;
+  background-image: repeating-linear-gradient(90deg, var(--blue-500) 0 20px, transparent 20px 38px);
+  opacity: .8;
+}
+.route-divider-v {
+  width: 1px;
+  background-image: repeating-linear-gradient(180deg, var(--steel-300) 0 8px, transparent 8px 18px);
+}
+
+/* ---------- Reveal on scroll ---------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- Waypoint técnico no mapa de cobertura -------------------------- */
+.waypoint { transition: transform .2s ease; cursor: pointer; transform-box: fill-box; transform-origin: center; }
+.waypoint:hover, .waypoint:focus-visible { transform: scale(1.2); }
+
+/* Card hover discreto (fundo claro) */
+.lift { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 14px 26px -18px rgba(10,12,15,.3); }
+
+/* Path drawing animation */
+.route-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  transition: stroke-dashoffset 1.6s ease;
+}
+.route-path.is-visible { stroke-dashoffset: 0; }
+
+/* ---------- Timeline (Empresa) --------------------------------------------- */
+.timeline-dot {
+  background: var(--blue-600);
+  box-shadow: 0 0 0 4px var(--paper);
+}
+.timeline-dot-dark {
+  background: var(--blue-500);
+  box-shadow: 0 0 0 4px var(--graphite-900);
+}
+
+/* ---------- Badge de marca (carteira comercial) ---------------------------- */
+.marca-badge {
+  border: 1px solid var(--line); background: var(--white);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.marca-badge:hover { border-color: var(--blue-500); transform: translateY(-2px); }
+
+.marca-row { transition: padding-left .22s ease, border-color .22s ease; }
+.marca-row:hover { padding-left: .75rem; border-color: var(--blue-500); }
+.marca-row:hover h2 { color: var(--blue-600); }
+
+.marca-card { transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease; }
+.marca-card:hover { transform: translateY(-3px); box-shadow: 0 14px 26px -18px rgba(10,12,15,.3); border-color: var(--blue-500); }
+.marca-card:hover h2 { color: var(--blue-600); }
+
+.marca-tile { background: var(--white); transition: background .2s ease; }
+.marca-tile:hover { background: var(--paper); }
+
+/* Mensagem count badge (admin) */
+.badge-unread {
+  display: inline-flex; min-width: 1.4rem; height: 1.4rem; align-items:center; justify-content:center;
+  background: var(--blue-600); color: #fff; font-size: .7rem; border-radius: .25rem; padding: 0 .3rem;
+}
+
+/* Avatar de equipe (iniciais) */
+.avatar-initial {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: .4rem;
+  background: var(--graphite-900); color: #fff;
+  font-family: 'Barlow Semi Condensed', sans-serif; font-weight: 700; font-size: 1.1rem;
+}
+
+::selection { background: var(--blue-600); color: #fff; }

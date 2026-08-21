@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}{{ empresa.nome }} — Representação Comercial de Autopeças em Minas Gerais{% endblock %}
+
+{% block content %}
+
+<!-- ===================== HERO (escuro + fotografia real) ===================== -->
+<section class="relative bg-navy text-white overflow-hidden">
+  <div class="relative grid lg:grid-cols-[1.05fr_0.95fr]">
+
+    <div class="max-w-2xl px-5 sm:px-8 lg:pl-8 lg:pr-10 pt-14 pb-14 lg:pt-20 lg:pb-20 relative z-10">
+      <p class="spec-label text-blue-300 mb-6 reveal">Representação Comercial de Autopeças · Minas Gerais desde {{ empresa.fundacao_ano }}</p>
+
+      <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-[3.1rem] leading-[1.08] tracking-tight reveal">
+        Quem representa sua marca em Minas Gerais precisa conhecer a estrada, não só o catálogo.
+      </h1>
+      <p class="mt-6 text-white/65 text-lg leading-relaxed reveal" style="transition-delay:.08s">
+        A {{ empresa.nome_curto }} conecta fabricantes de autopeças a distribuidores e lojistas em todo o estado — com relacionamento comercial, conhecimento de mercado e presença constante no território mineiro.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-4 reveal" style="transition-delay:.14s">
+        <a href="{{ url_for('contato') }}" class="btn-primary text-base px-6 py-3.5">Quero ser representado</a>
+        <a href="{{ url_for('linhas') }}" class="btn-outline text-base px-6 py-3.5">Conhecer as linhas</a>
+      </div>
+
+      <dl class="mt-14 grid grid-cols-3 gap-x-6 gap-y-6 max-w-md font-mono border-t border-white/10 pt-7 reveal" style="transition-delay:.2s">
+        <div>
+          <dt class="text-2xl font-semibold text-white">{{ empresa.anos_experiencia_total }}+</dt>
+          <dd class="text-white/45 text-[11px] uppercase tracking-wide mt-1">Anos de experiência no mercado</dd>
+        </div>
+        <div>
+          <dt class="text-2xl font-semibold text-white">853</dt>
+          <dd class="text-white/45 text-[11px] uppercase tracking-wide mt-1">Municípios em MG</dd>
+        </div>
+        <div>
+          <dt class="text-2xl font-semibold text-white">{{ marcas_parceiras|length }}</dt>
+          <dd class="text-white/45 text-[11px] uppercase tracking-wide mt-1">Marcas representadas</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="img-fallback-wrap hero-photo-frame min-h-[320px] lg:min-h-0">
+      <img src="{{ fotos.hero }}" alt="Componentes automotivos de alta qualidade" class="js-img-fallback" loading="eager">
+      <div class="img-fallback-bg">
+        <img src="{{ url_for('static', filename='img/icons/engine.png') }}" alt="" class="w-40 h-40 opacity-40" loading="lazy">
+      </div>
+    </div>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== MARCAS (claro, sofisticado) ===================== -->
+<section class="bg-white border-b border-linha">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+    <div class="text-center max-w-xl mx-auto reveal">
+      <p class="spec-label text-action mb-4 justify-center">Marcas que representamos</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Um portfólio estratégico para diferentes necessidades do mercado automotivo.</h2>
+    </div>
+
+    <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 divide-x divide-y divide-linha border border-linha rounded overflow-hidden">
+      {% for m in marcas_parceiras %}
+      <div class="reveal marca-tile px-6 py-8 flex flex-col items-center justify-center text-center" style="transition-delay:{{ (loop.index0 % 8) * 0.05 }}s">
+        <span class="font-display font-bold text-lg text-navy">{{ m.nome }}</span>
+        {% if m.confirmado %}
+        <span class="text-steel text-[11px] mt-1.5 leading-snug">{{ m.linha }}</span>
+        {% else %}
+        <span class="text-steel/60 text-[11px] mt-1.5 italic">a confirmar</span>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-10 reveal">
+      <a href="{{ url_for('representadas') }}" class="inline-flex items-center gap-1.5 text-action text-sm font-semibold hover:underline">
+        Ver carteira completa {{ icon('arrow-right', 'w-3.5 h-3.5') }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIÊNCIA (azul/grafite + foto) ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <p class="spec-label text-blue-300 mb-4">Experiência</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight">Experiência que abre portas.</h2>
+        <p class="text-white/65 mt-5 leading-relaxed max-w-lg">{{ empresa.anos_experiencia_total }}+ anos de conhecimento acumulado no mercado de autopeças — relacionamento consolidado com o canal de distribuidores e lojistas, e presença comercial constante em Minas Gerais.</p>
+        <p class="font-display text-xl text-white mt-8 leading-snug border-l-2 border-action pl-5">"Conhecemos o mercado. Conhecemos o território. Conhecemos quem compra."</p>
+      </div>
+      <div class="img-fallback-wrap rounded overflow-hidden aspect-[4/3] reveal" style="transition-delay:.1s">
+        <img src="{{ fotos.experiencia }}" alt="Ambiente profissional de autopeças" class="js-img-fallback w-full h-full object-cover" loading="lazy">
+        <div class="img-fallback-bg">
+          <img src="{{ url_for('static', filename='img/icons/brake.png') }}" alt="" class="w-24 h-24 opacity-40" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== O QUE FAZEMOS (claro + elementos gráficos) ===================== -->
+<section class="bg-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="max-w-2xl reveal">
+      <p class="spec-label text-action mb-4">O que fazemos</p>
+      <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Representação que gera negócio para fabricantes e clientes.</h2>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {% for f in frentes %}
+      <div class="reveal tech-card rounded p-6" style="transition-delay:{{ loop.index0 * 0.08 }}s">
+        <div class="icon-badge w-12 h-12 rounded flex items-center justify-center text-navy">{{ icon(f.icone, 'w-6 h-6') }}</div>
+        <h3 class="font-display font-bold text-lg text-navy mt-4">{{ f.titulo }}</h3>
+        <p class="text-steel text-sm mt-2 leading-relaxed">{{ f.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== LINHAS (escuro + fotos) ===================== -->
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6 reveal">
+      <div class="max-w-xl">
+        <p class="spec-label text-blue-300 mb-4">Catálogo</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight">Linhas de autopeças representadas.</h2>
+      </div>
+      <a href="{{ url_for('linhas') }}" class="btn-outline">Ver catálogo completo</a>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {% for l in linhas %}
+      <div class="reveal tech-card-dark rounded overflow-hidden" style="transition-delay:{{ loop.index0 * 0.06 }}s">
+        <div class="aspect-square bg-gradient-to-br from-navy-light to-asfalto flex items-center justify-center">
+          {% if l.img %}
+          <img src="{{ url_for('static', filename='img/icons/' + l.img) }}" alt="{{ l.nome }}" class="w-16 h-16 rounded" loading="lazy">
+          {% else %}
+          <div class="icon-badge-dark w-12 h-12 rounded flex items-center justify-center text-blue-300">{{ icon(l.icone, 'w-6 h-6') }}</div>
+          {% endif %}
+        </div>
+        <div class="p-5">
+          <h3 class="font-display font-bold text-white">{{ l.nome }}</h3>
+          <p class="text-blue-300 text-xs font-mono uppercase tracking-wide mt-1">{{ l.marca }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ATUAÇÃO EM MG (grafite/azul) ===================== -->
+<section class="bg-mist">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <p class="spec-label text-action mb-4">Território</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Presença onde o mercado automotivo mineiro acontece.</h2>
+        <p class="text-steel mt-5 leading-relaxed max-w-lg">Minas Gerais tem {{ territorio.municipios }} municípios, {{ territorio.populacao_desc|lower }} e {{ territorio.frota|lower }} do país. A {{ empresa.nome_curto }} mantém rotas comerciais planejadas para cobrir esse território com presença constante.</p>
+        <dl class="mt-8 grid grid-cols-2 gap-6 font-mono max-w-md">
+          <div><dt class="text-xl font-semibold text-navy">{{ territorio.area }}</dt><dd class="text-steel text-[11px] uppercase tracking-wide mt-1">Área de MG</dd></div>
+          <div><dt class="text-xl font-semibold text-navy">{{ territorio.municipios }}</dt><dd class="text-steel text-[11px] uppercase tracking-wide mt-1">Municípios</dd></div>
+          <div><dt class="text-xl font-semibold text-navy">{{ territorio.pib }}</dt><dd class="text-steel text-[11px] uppercase tracking-wide mt-1">do Brasil</dd></div>
+          <div><dt class="text-xl font-semibold text-navy">{{ territorio.frota }}</dt><dd class="text-steel text-[11px] uppercase tracking-wide mt-1">10,4% da frota</dd></div>
+        </dl>
+        <a href="{{ url_for('atuacao_mg') }}" class="inline-flex items-center gap-1.5 text-action text-sm font-semibold mt-8 hover:underline">
+          Ver mapa de cobertura {{ icon('arrow-right', 'w-3.5 h-3.5') }}
+        </a>
+      </div>
+
+      <div class="reveal mg-map-panel rounded p-6 sm:p-8" style="transition-delay:.1s">
+        <svg viewBox="0 0 500 480" class="w-full h-auto" role="img" aria-label="Mapa estilizado de Minas Gerais com regiões atendidas">
+          <path class="mg-shape" d="M170,50 C260,28 360,48 415,100 C465,138 480,205 450,258 C480,305 460,375 400,410 C340,445 250,436 195,410 C135,436 70,398 55,340 C25,300 35,235 65,188 C45,140 70,84 170,50 Z" stroke-width="1.5"/>
+          <path class="mg-route-ghost" fill="none" stroke-width="1.5" stroke-dasharray="1 7"
+                d="M300,282 L260,215 L130,282 L90,198 L250,84 L430,244 L420,378 L200,412"/>
+          <path class="route-path" fill="none" stroke="#5B8FCE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                d="M300,282 L260,215 L130,282 L90,198 L250,84 L430,244 L420,378 L200,412"/>
+          {% for r in regioes %}
+          <g class="waypoint mg-waypoint">
+            <rect x="{{ r.x - 5 }}" y="{{ r.y - 5 }}" width="10" height="10" stroke-width="1.5" transform="rotate(45 {{ r.x }} {{ r.y }})"/>
+          </g>
+          {% endfor %}
+        </svg>
+        <p class="text-white/35 text-xs text-center mt-2 font-mono">Mapa estilizado, sem escala cartográfica.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if noticias %}
+<!-- ===================== MERCADO & NOVIDADES (claro) ===================== -->
+<section class="bg-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-24">
+    <div class="flex flex-wrap items-end justify-between gap-6 reveal">
+      <div class="max-w-xl">
+        <p class="spec-label text-action mb-4">Conteúdo</p>
+        <h2 class="font-display font-bold text-3xl sm:text-4xl text-navy tracking-tight">Mercado &amp; Novidades.</h2>
+      </div>
+      <a href="{{ url_for('conteudo') }}" class="btn-dark">Ver todo o conteúdo</a>
+    </div>
+    <div class="mt-12 grid sm:grid-cols-3 gap-5">
+      {% for n in noticias %}
+      <div class="reveal tech-card rounded p-6" style="transition-delay:{{ loop.index0 * 0.08 }}s">
+        <span class="spec-label text-action">{{ n.categoria }}</span>
+        <h3 class="font-display font-bold text-lg text-navy mt-3 leading-snug">{{ n.titulo }}</h3>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===================== CTA FINAL (escuro/azul) ===================== -->
+<section class="bg-navy text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20 grid lg:grid-cols-2 gap-10 items-center">
+    <div class="reveal">
+      <h2 class="font-display font-bold text-3xl sm:text-4xl tracking-tight">Vamos desenvolver seu mercado em Minas Gerais?</h2>
+      <p class="text-white/60 mt-4 max-w-lg leading-relaxed">Fale com a equipe comercial da {{ empresa.nome_curto }} e conheça as condições para representação, distribuição e parceria.</p>
+    </div>
+    <div class="flex flex-wrap gap-4 lg:justify-end reveal">
+      <a href="{{ url_for('contato') }}" class="btn-primary text-base px-6 py-3.5">Fale com a equipe</a>
+      <a href="https://wa.me/{{ empresa.whatsapp_numero }}?text={{ empresa.whatsapp_mensagem_padrao | urlencode }}" target="_blank" rel="noopener" class="btn-whatsapp text-base px-6 py-3.5">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

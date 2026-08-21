@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% from "_icons.html" import icon %}
+{% block title %}Marcas Representadas — {{ empresa.nome }}{% endblock %}
+{% block description %}Conheça as marcas representadas pela {{ empresa.nome }} em Minas Gerais: Sintech, Pysko, Cofran, Hexlub, Nidec, Aeroflex, Mundial Prime, VP, Cyclo e mais.{% endblock %}
+
+{% block content %}
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-20">
+    <p class="spec-label text-blue-300 mb-4 reveal">Carteira comercial</p>
+    <h1 class="font-display font-extrabold text-4xl sm:text-5xl tracking-tight max-w-3xl reveal">Marcas que representamos.</h1>
+    <p class="text-white/65 mt-5 max-w-2xl leading-relaxed reveal" style="transition-delay:.08s">Um portfólio estratégico para diferentes necessidades do mercado automotivo — cada marca recebe cobertura comercial direta, apoio de marketing e presença constante junto aos distribuidores e lojistas mineiros.</p>
+  </div>
+  <div class="route-divider"></div>
+</section>
+
+<!-- ===================== GRADE DE MARCAS ===================== -->
+<section class="bg-mist">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-20">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {% for m in marcas_parceiras %}
+      <div class="reveal marca-card bg-white rounded p-7 border border-linha" style="transition-delay:{{ (loop.index0 % 9) * 0.05 }}s">
+        <div class="flex items-start justify-between gap-3">
+          <h2 class="font-display font-bold text-2xl text-navy tracking-tight">{{ m.nome }}</h2>
+          {% if not m.confirmado %}
+          <span class="spec-label text-amber-600 shrink-0" title="Linha ainda não confirmada com o cliente">a confirmar</span>
+          {% endif %}
+        </div>
+        <p class="text-steel text-sm mt-3 leading-relaxed {{ 'italic text-steel/70' if not m.confirmado }}">{{ m.linha }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="reveal mt-6 flex flex-col sm:flex-row items-center justify-between gap-5 bg-white rounded p-7 border border-linha">
+      <p class="text-steel text-sm leading-relaxed">Nossa carteira de representadas está sempre em expansão. Fale com a equipe comercial para verificar novidades e condições de parceria.</p>
+      <a href="{{ url_for('contato') }}" class="inline-flex items-center gap-1.5 text-action text-sm font-semibold shrink-0 hover:underline">
+        Falar com a equipe {{ icon('arrow-right', 'w-3.5 h-3.5') }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark grain text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-16 flex flex-col sm:flex-row items-center justify-between gap-6">
+    <h2 class="font-display font-bold text-2xl sm:text-3xl tracking-tight text-center sm:text-left">Veja também nosso catálogo por linha de produto.</h2>
+    <a href="{{ url_for('linhas') }}" class="btn-primary shrink-0">Ver linhas de produto</a>
+  </div>
+</section>
+
+{% endblock %}

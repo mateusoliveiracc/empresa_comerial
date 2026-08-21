@@ -105,4 +105,12 @@
       if (card) card.classList.remove("ring-2", "ring-action");
     });
   });
+  // ---- Fallback para fotos hotlinked (site atual do cliente) ---------------
+  document.querySelectorAll("img.js-img-fallback").forEach(function (img) {
+    img.addEventListener("error", function () {
+      img.style.display = "none";
+      var wrap = img.closest(".img-fallback-wrap");
+      if (wrap) wrap.classList.add("img-failed");
+    });
+  });
 })();
