@@ -1,15 +1,3 @@
-# Site institucional — H.M. Borçato Representação Comercial e Marketing
-
-Reformulação completa em **Flask + SQLite + Tailwind CSS**, com direção visual industrial/automotiva (não "SaaS"), conteúdo baseado em informações reais extraídas de hmborcato.com.br, e formulário de contato funcional com painel administrativo.
-
-## Como rodar no PyCharm / Windows
-
-1. Abra a pasta `hmborcato` no PyCharm.
-2. `pip install -r requirements.txt`
-3. Rode `app.py` (▶ do PyCharm ou `python app.py`).
-4. Acesse **http://127.0.0.1:5000**.
-
-O banco SQLite (`instance/hmborcato.db`) é criado automaticamente.
 
 ## Estrutura de páginas
 
