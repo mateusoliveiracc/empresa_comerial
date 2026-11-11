@@ -78,11 +78,4 @@ As marcas antigas (NTN, Tungsram, Airmaks) foram **removidas** do site, incluind
 
 **Fundos alternados**: a Home agora segue Hero(escuro+foto) → Marcas(claro) → Experiência(escuro/azul+foto) → O que fazemos(claro) → Linhas(escuro+ícones) → Atuação em MG(claro+mapa escuro) → Conteúdo(claro, se houver) → CTA final(escuro/azul) — sem mais sequências de fundo branco repetidas.
 
-## Ideias de melhoria para os próximos passos
 
-- Fotos reais da equipe e de produtos/estoque
-- Corpo completo de cada notícia em "Mercado & Novidades", com datas
-- Depoimentos de clientes/distribuidores parceiros
-- Catálogo em PDF para download (bom gerador de leads)
-- Google Analytics / Meta Pixel
-- Deploy em Render, Railway ou PythonAnywhere — trocar `SECRET_KEY` e `admin_senha` por variáveis de ambiente fortes antes de publicar
